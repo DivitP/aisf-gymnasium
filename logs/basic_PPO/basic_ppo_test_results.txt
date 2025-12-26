@@ -1,0 +1,13 @@
+==================================================
+TRAINING FINISHED. STARTING EVALUATION RECORDING...
+==================================================
+Test Episode 1: Official Score = 301.57
+Test Episode 2: Official Score = 301.90
+Test Episode 3: Official Score = 302.24
+Test Episode 4: Official Score = 301.52
+Test Episode 5: Official Score = 301.24
+
+------------------------------
+AVERAGE TEST SCORE: 301.69
+Videos saved to: logs/basic_PPO/
+------------------------------

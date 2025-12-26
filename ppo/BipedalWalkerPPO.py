@@ -7,7 +7,6 @@ from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.monitor import Monitor
 import os
 
-# --- POINT TRACKER ---
 class PointTrackerCallback(BaseCallback):
     def __init__(self, check_freq_steps=400, verbose=1):
         super(PointTrackerCallback, self).__init__(verbose)
@@ -19,44 +18,25 @@ class PointTrackerCallback(BaseCallback):
         reward = self.locals['rewards'][0]
         self.current_episode_reward += reward
         self.episode_steps += 1
-
-        # Print the score every 400 steps
         if self.episode_steps % self.check_freq_steps == 0:
             print(f"-> Step {self.episode_steps}: Current Points = {self.current_episode_reward:.2f}")
-
         if self.locals['dones'][0]:
-            print(f"--- Episode Finished | Final Score: {self.current_episode_reward:.2f} ---")
+            print(f"--- Training Episode Finished | Final Score: {self.current_episode_reward:.2f} ---")
             self.current_episode_reward = 0
             self.episode_steps = 0
         return True
-# ------------------------------
 
-video_folder = "logs/videos/"
-video_length = 500  # Number of steps to record per video
+video_folder = "logs/basic_PPO/"
 os.makedirs(video_folder, exist_ok=True)
 
-def make_env():
-    # render_mode="rgb_array" is required for recording
-    env = gym.make("BipedalWalker-v3", render_mode="rgb_array") #render_mode="human" for live visualization
-    return Monitor(env)
+def make_train_env():
+    return Monitor(gym.make("BipedalWalker-v3"))
 
+train_env = DummyVecEnv([make_train_env])
 
-env = DummyVecEnv([make_env])
-
-# Record a video every 10,000 steps
-env = VecVideoRecorder(
-    env, 
-    video_folder,
-    record_video_trigger=lambda x: x % 10000 == 0, 
-    video_length=video_length,
-    name_prefix="ppo-bipedal-walker"
-)
-
-# 4. Instantiate the Agent (MLP Policy)
-# BipedalWalker has a 24D observation space and 4D continuous action space
 model = PPO(
     "MlpPolicy", 
-    env, 
+    train_env, 
     verbose=1,
     learning_rate=0.0003,
     n_steps=2048,
@@ -67,44 +47,57 @@ model = PPO(
 )
 
 print("Starting training...")
-model.learn(total_timesteps=100000, callback=PointTrackerCallback())
-
+model.learn(total_timesteps=500000, callback=PointTrackerCallback())
 model.save("ppo_bipedal_walker_model")
+train_env.close()
 
-env.close()
+#Testing
+print("\n" + "="*50)
+print("TESTING PHASE")
+print("="*50)
 
+def make_test_env():
+    return Monitor(gym.make("BipedalWalker-v3", render_mode="rgb_array"))
+
+test_env = DummyVecEnv([make_test_env])
+
+test_env = VecVideoRecorder(
+    test_env, 
+    video_folder,
+    record_video_trigger=lambda x: x == 0, 
+    video_length=2000,
+    name_prefix="ppo-bipedal-walker-eval"
+)
+
+num_test_episodes = 5
+test_scores = []
+
+for i in range(num_test_episodes):
+    obs = test_env.reset()
+    done = False
+    episode_reward = 0
+    
+    while not done:
+        action, _states = model.predict(obs, deterministic=True)
+        obs, reward, done, info = test_env.step(action)
+        episode_reward += reward[0]
+        
+        if done:
+            score = info[0]['episode']['r']
+            test_scores.append(score)
+            print(f"Test Episode {i+1}: Official Score = {score:.2f}")
+
+# Report
+avg_score = sum(test_scores) / len(test_scores)
+print("\n" + "-"*30)
+print(f"AVERAGE TEST SCORE: {avg_score:.2f}")
+print(f"Videos saved to: {video_folder}")
+print("-" * 30 + "\n")
+
+test_env.close()
 
 #Etrophy Loss: measuring randomness. if it gets lower, that is good since it means the agent is getting less confused
 #Explained_variance: Tells if the agent understands the relationship between its actions and the rewards. Closer to 1 means it gets it.
 #Std: agent narrowing down leg swing range
 #explained_variance: How well the agent can predict the reward it's about to get.
 #value_loss: How wrong the agent was about its reward prediction.
-
-#Highest Score:
-# -> Step 400: Current Points = 15.38
-# -> Step 800: Current Points = 27.74
-# -----------------------------------------
-# | rollout/                |             |
-# |    ep_len_mean          | 1.27e+03    |
-# |    ep_rew_mean          | -58.8       |
-# | time/                   |             |
-# |    fps                  | 1823        |
-# |    iterations           | 47          |
-# |    time_elapsed         | 52          |
-# |    total_timesteps      | 96256       |
-# | train/                  |             |
-# |    approx_kl            | 0.013054397 |
-# |    clip_fraction        | 0.136       |
-# |    clip_range           | 0.2         |
-# |    entropy_loss         | -4.02       |
-# |    explained_variance   | 0.833       |
-# |    learning_rate        | 0.0003      |
-# |    loss                 | 0.0511      |
-# |    n_updates            | 460         |
-# |    policy_gradient_loss | -0.0122     |
-# |    std                  | 0.66        |
-# |    value_loss           | 0.188       |
-# -----------------------------------------
-# -> Step 1200: Current Points = 48.17
-# -> Step 1600: Current Points = 62.53
-# --- Episode Finished | Final Score: 62.53 ---
