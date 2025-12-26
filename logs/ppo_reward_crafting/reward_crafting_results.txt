@@ -1,4 +1,4 @@
-Learning Rate = 0.0003 AND Time Steps = 100k
+Learning Rate = 0.0003 AND Time Steps = 100k (logs/ppo_reward_crafting)
 ==================================================
 TESTING PHASE
 ==================================================
@@ -12,7 +12,11 @@ AVERAGE TEST SCORE: 257.01
 RESULT: 42.99 points away from solving.
 ==================================================
 
-Learning Rate = 0.0003 AND Time Step = 150k
+
+
+
+
+Learning Rate = 0.0003 AND Time Step = 150k (logs/ppo_reward_crafting/150)
 ==================================================
 TESTING PHASE
 ==================================================
