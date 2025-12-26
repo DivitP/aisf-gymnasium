@@ -1,0 +1,27 @@
+Learning Rate = 0.0003 AND Time Steps = 100k
+==================================================
+TESTING PHASE
+==================================================
+Test Episode 1: Official Score = 252.76 | Steps = 1600
+Test Episode 2: Official Score = 258.39 | Steps = 1600
+Test Episode 3: Official Score = 263.99 | Steps = 1600
+Test Episode 4: Official Score = 249.92 | Steps = 1600
+Test Episode 5: Official Score = 259.99 | Steps = 1600
+------------------------------
+AVERAGE TEST SCORE: 257.01
+RESULT: 42.99 points away from solving.
+==================================================
+
+Learning Rate = 0.0003 AND Time Step = 150k
+==================================================
+TESTING PHASE
+==================================================
+Test Episode 1: Official Score = 299.95 | Steps = 1600
+Test Episode 2: Official Score = 311.13 | Steps = 1600
+Test Episode 3: Official Score = 296.94 | Steps = 1600
+Test Episode 4: Official Score = 292.70 | Steps = 1600
+Test Episode 5: Official Score = 314.69 | Steps = 1600
+------------------------------
+AVERAGE TEST SCORE: 303.08
+RESULT: ENVIRONMENT SOLVED!
+==================================================
