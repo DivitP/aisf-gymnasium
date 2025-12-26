@@ -1,31 +1,28 @@
-Learning Rate = 0.0003 AND Time Steps = 100k (logs/ppo_reward_crafting)
+Learning Rate = 0.0003 AND Time Steps = 100k (logs/ppo_reward_crafting/100k)
 ==================================================
 TESTING PHASE
 ==================================================
-Test Episode 1: Official Score = 252.76 | Steps = 1600
-Test Episode 2: Official Score = 258.39 | Steps = 1600
-Test Episode 3: Official Score = 263.99 | Steps = 1600
-Test Episode 4: Official Score = 249.92 | Steps = 1600
-Test Episode 5: Official Score = 259.99 | Steps = 1600
-------------------------------
-AVERAGE TEST SCORE: 257.01
-RESULT: 42.99 points away from solving.
+Test Episode 1: Official Score = 292.56
+Test Episode 2: Official Score = 299.72
+Test Episode 3: Official Score = 284.18
+Test Episode 4: Official Score = 279.23
+Test Episode 5: Official Score = 298.32
+
+AVERAGE TEST SCORE: 290.80
 ==================================================
 
 
 
 
-
-Learning Rate = 0.0003 AND Time Step = 150k (logs/ppo_reward_crafting/150)
+Learning Rate = 0.0003 AND Time Steps = 150k (logs/ppo_reward_crafting/150k)
 ==================================================
 TESTING PHASE
 ==================================================
-Test Episode 1: Official Score = 299.95 | Steps = 1600
-Test Episode 2: Official Score = 311.13 | Steps = 1600
-Test Episode 3: Official Score = 296.94 | Steps = 1600
-Test Episode 4: Official Score = 292.70 | Steps = 1600
-Test Episode 5: Official Score = 314.69 | Steps = 1600
-------------------------------
-AVERAGE TEST SCORE: 303.08
-RESULT: ENVIRONMENT SOLVED!
+Test Episode 1: Official Score = 374.88
+Test Episode 2: Official Score = 393.33
+Test Episode 3: Official Score = 379.78
+Test Episode 4: Official Score = 379.90                                                                                                           
+Test Episode 5: Official Score = 124.75
+
+AVERAGE TEST SCORE: 330.53
 ==================================================
