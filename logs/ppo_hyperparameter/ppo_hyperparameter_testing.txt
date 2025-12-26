@@ -1,0 +1,53 @@
+LEARNING RATE = 0.0007 AND TIMESTEPS = 100K (learning_rate_7.mp4)
+==================================================
+TESTING PHASE
+==================================================
+Test Episode 1: Official Score = 190.49
+Test Episode 3: Official Score = 189.30
+Test Episode 4: Official Score = 181.94
+Test Episode 5: Official Score = 183.11
+------------------------------
+AVERAGE TEST SCORE: 185.88
+Videos saved to: logs/ppo_hyperparameter/
+------------------------------
+
+LEARNING RATE = 0.001 AND TIMESTEPS = 100K (learning_rate_1.mp4)
+==================================================
+TESTING PHASE
+==================================================
+Test Episode 1: Official Score = 88.93
+Test Episode 2: Official Score = 30.81
+Test Episode 3: Official Score = 137.87
+Test Episode 4: Official Score = -20.30
+Test Episode 5: Official Score = 120.89
+------------------------------
+AVERAGE TEST SCORE: 71.64
+Videos saved to: logs/ppo_hyperparameter/
+------------------------------
+
+LEARNING RATE = 0.0001 AND TIMESTEPS = 100K (learning_rate_low_1.mp4)
+==================================================
+TESTING PHASE
+==================================================
+Test Episode 1: Official Score = -106.21
+Test Episode 2: Official Score = -105.58
+Test Episode 3: Official Score = -106.12
+Test Episode 4: Official Score = -106.20
+Test Episode 5: Official Score = -106.18
+------------------------------
+AVERAGE TEST SCORE: -106.06
+Videos saved to: logs/ppo_hyperparameter/
+------------------------------
+
+LEARNING RATE = 0.0007 AND TIMESTEPS = 200K
+==================================================
+TESTING PHASE
+==================================================
+Test Episode 1: Official Score = 64.29
+Test Episode 2: Official Score = 277.37
+Test Episode 3: Official Score = 284.92
+Test Episode 4: Official Score = 282.35
+Test Episode 5: Official Score = 285.69
+------------------------------
+AVERAGE TEST SCORE: 238.92
+------------------------------
