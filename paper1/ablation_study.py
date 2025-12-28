@@ -10,10 +10,8 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize, VecVideo
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.callbacks import BaseCallback
 
-# --- 1. RESEARCH-BACKED REWARD WRAPPERS ---
-
 class SimpleRewardWrapper(gym.RewardWrapper):
-    """Initial crafting: Hull angle and velocity."""
+    """Hull angle and velocity"""
     def __init__(self, env):
         super().__init__(env)
     def reward(self, reward):
@@ -22,13 +20,12 @@ class SimpleRewardWrapper(gym.RewardWrapper):
         return reward - (0.1 * abs(obs)) + (0.05 * max(0, vel_x))
 
 class ResearchRewardWrapper(gym.RewardWrapper):
-    """Full research shaping: adds height safety and control cost."""
+    """height safety and control cost added"""
     def __init__(self, env):
         super().__init__(env)
         self.current_action = np.zeros(env.action_space.shape)
 
     def step(self, action):
-        # Capture the action to use it in the reward function
         self.current_action = action
         return super().step(action)
 
@@ -38,27 +35,20 @@ class ResearchRewardWrapper(gym.RewardWrapper):
         hull_height = env.hull.position[1]
         vel_x = env.hull.linearVelocity[0]
         
-        # --- Research-inspired shaping ---
         stability_penalty = -0.2 * abs(hull_angle)
         height_penalty = -2.0 * max(0, 0.9 - hull_height)
         forward_bonus = 0.1 * max(0, vel_x)
-        
-        # Use the action captured in step() to calculate control cost
-        # Penalizing the square of actions discourages high-frequency jitter
         control_cost = -0.01 * np.sum(np.square(self.current_action))
         
         return reward + stability_penalty + height_penalty + forward_bonus + control_cost
 
-# --- 2. CALLBACKS ---
-
 class AblationLoggerCallback(BaseCallback):
-    """Captures training metrics for graphs."""
+    """training metrics for graphs"""
     def __init__(self):
         super().__init__()
         self.history = {'entropy': [], 'value_loss': []}
 
     def _on_step(self) -> bool:
-        # SB3 logs are available in the logger
         ent = self.logger.name_to_value.get('train/entropy_loss', np.nan)
         vf_loss = self.logger.name_to_value.get('train/value_loss', np.nan)
         self.history['entropy'].append(ent)
@@ -73,8 +63,6 @@ class EntropyDecayCallback(BaseCallback):
         progress = min(1.0, self.num_timesteps / self.total_steps)
         self.model.ent_coef = self.start * (1 - progress) + self.end * progress
         return True
-
-# --- 3. THE ABLATION ENGINE ---
 
 def run_ablation():
     STEPS = 100000
@@ -120,7 +108,6 @@ def run_ablation():
         all_histories[name] = logger_cb.history
         venv.close()
 
-# --- 4. TESTING & VIDEO RECORDING ---
     print("\n" + "="*50)
     print("STARTING TESTING PHASE & SCOREBOARD")
     print("="*50)
@@ -167,27 +154,21 @@ def run_ablation():
         test_venv.close()
 
     # --- FINAL SUMMARY TABLE ---
-    print("\n" + "!"*50)
+    print("\n" + "="*50)
     print("FINAL ABLATION SUMMARY")
-    print("!"*50)
+    print("="*50)
     summary_df = pd.DataFrame(final_scoreboard)
     print(summary_df.to_string(index=False))
     
-    # --- 5. GRAPH GENERATION ---
     generate_graphs(base_log_dir, experiments, all_histories)
 
 def generate_graphs(base_dir, experiments, histories):
     fig, axs = plt.subplots(2, 2, figsize=(16, 10))
     
     for name, _, _, _ in experiments:
-        # Reward Curve
         df = pd.read_csv(f"{base_dir}/{name}_train/monitor.csv", skiprows=1)
         axs[0, 0].plot(df['l'].cumsum(), df['r'].rolling(10).mean(), label=name)
-        
-        # Value Loss
         axs[0, 1].plot(histories[name]['value_loss'], label=name)
-        
-        # Entropy
         axs[1, 0].plot(histories[name]['entropy'], label=name)
 
     axs[0, 0].set_title("Training Reward (Smoothed)")
