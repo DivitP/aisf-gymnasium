@@ -1,0 +1,22 @@
+==================================================
+TESTING PHASE (optimized_ppo.py)
+==================================================
+Test Episode 1: Official Score = -2.64
+Test Episode 2: Official Score = 425.76
+Test Episode 3: Official Score = 260.56
+Test Episode 4: Official Score = 56.19
+Test Episode 5: Official Score = 144.13
+
+aisf-gymnasium/logs/ppo_ablation_optimized/optimized-test-5-step-0-to-step-2000.mp4
+
+
+==================================================
+TESTING PHASE (optimized_ppo_2.py)- added learning rate for stability
+==================================================
+Test Episode 1: Official Score = 600.31
+Test Episode 2: Official Score = 592.36
+Test Episode 3: Official Score = 600.36
+Test Episode 4: Official Score = 593.49                                                                                      
+Test Episode 5: Official Score = 579.53
+                                                                                            
+aisf-gymnasium/logs/ppo_lr_annealing/
