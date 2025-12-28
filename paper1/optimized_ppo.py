@@ -8,17 +8,14 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize, VecVideo
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.callbacks import BaseCallback
 
-# 1. MINIMAL REWARD BIASING
-# Based on your finding that simple shaping > complex height penalties
 class BipedalOptimizedWrapper(gym.RewardWrapper):
     def __init__(self, env):
         super().__init__(env)
 
     def reward(self, reward):
-        # Focus on "smooth reward biasing" rather than aggressive penalties
         vel_x = self.env.unwrapped.hull.linearVelocity[0]
         forward_bonus = 0.1 * max(0, vel_x) 
-        return reward + forward_bonus
+        return reward + forward_bonus # based on your finding that simple shaping > complex height penalties
 
 class TrainingLogger(BaseCallback):
     def __init__(self, verbose=1):
@@ -38,17 +35,13 @@ def make_env():
     env = BipedalOptimizedWrapper(env)
     return Monitor(env)
 
-# --- TRAINING PHASE ---
 video_folder = "logs/ppo_ablation_optimized"
 os.makedirs(video_folder, exist_ok=True)
 
 venv = DummyVecEnv([make_env])
 
-# RESEARCH OPTIMIZATION 6 & 7: Observation Normalization and Clipping [cite: 814, 816]
-# Your ablation found this was the "dominant factor for successful learning."
 venv = VecNormalize(venv, norm_obs=True, norm_reward=False, clip_obs=10.0)
 
-# RESEARCH OPTIMIZATION 3 & 8: Orthogonal Init & Tanh [cite: 811, 818]
 policy_kwargs = dict(
     activation_fn=nn.Tanh,
     ortho_init=True,
@@ -66,19 +59,17 @@ model = PPO(
     gamma=0.99,
     gae_lambda=0.95,
     clip_range=0.2,
-    # RESEARCH OPTIMIZATION 9: Global Gradient Clipping 
     max_grad_norm=0.5,
     policy_kwargs=policy_kwargs
 )
 
-print("Training Optimized PPO (Input Stabilization Focus)...")
+print("Training:")
 model.learn(total_timesteps=100000, callback=TrainingLogger())
 
 model.save("ppo_optimized_final")
 venv.save("normalization_stats.pkl")
 venv.close()
 
-# --- TESTING PHASE ---
 print("\n" + "="*50 + "\nTESTING PHASE\n" + "="*50)
 
 test_venv = DummyVecEnv([make_env])
