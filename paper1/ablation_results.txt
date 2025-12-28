@@ -1,0 +1,43 @@
+==================================================
+STARTING TESTING PHASE & SCOREBOARD
+==================================================
+Model: 1_Baseline           | Episode 1 | Score: -64.14
+Model: 1_Baseline           | Episode 2 | Score: -98.35
+Model: 1_Baseline           | Episode 3 | Score: -55.52
+Model: 1_Baseline           | Episode 4 | Score: -100.20
+Model: 1_Baseline           | Episode 5 | Score: -99.52
+
+Model: 2_Shaping            | Episode 1 | Score: -91.01
+Model: 2_Shaping            | Episode 2 | Score: -94.33
+Model: 2_Shaping            | Episode 3 | Score: -91.16
+Model: 2_Shaping            | Episode 4 | Score: -90.94
+Model: 2_Shaping            | Episode 5 | Score: -91.39
+
+Model: 3_Normalization      | Episode 1 | Score: 226.23
+Model: 3_Normalization      | Episode 2 | Score: 213.74
+Model: 3_Normalization      | Episode 3 | Score: 213.11
+Model: 3_Normalization      | Episode 4 | Score: 218.22
+Model: 3_Normalization      | Episode 5 | Score: 218.28
+
+Model: 4_Height_Penalty     | Episode 1 | Score: -114.50
+Model: 4_Height_Penalty     | Episode 2 | Score: -89.48
+Model: 4_Height_Penalty     | Episode 3 | Score: -114.54
+Model: 4_Height_Penalty     | Episode 4 | Score: -114.49
+Model: 4_Height_Penalty     | Episode 5 | Score: -114.54
+
+Model: 5_Full_Research      | Episode 1 | Score: 122.89
+Model: 5_Full_Research      | Episode 2 | Score: 113.75
+Model: 5_Full_Research      | Episode 3 | Score: 111.04
+Model: 5_Full_Research      | Episode 4 | Score: 123.46
+Model: 5_Full_Research      | Episode 5 | Score: 118.08
+
+==================================================
+FINAL ABLATION SUMMARY
+==================================================
+      Experiment  Average Score  Max Score
+      1_Baseline     -83.546781 -55.520252
+       2_Shaping     -91.767102 -90.943243
+ 3_Normalization     217.916073 226.231541
+4_Height_Penalty    -109.512382 -89.482610
+ 5_Full_Research     117.843876 123.462814
+ ==================================================
