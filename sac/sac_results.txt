@@ -1,0 +1,29 @@
+========================================
+SAC OFFICIAL TEST SCOREBOARD (sac.py)
+========================================
+Episode 1: Score = -116.14
+Episode 2: Score = -51.43
+Episode 3: Score = -47.96
+Episode 4: Score = -46.90
+Episode 5: Score = -74.17
+----------------------------------------
+AVERAGE TEST SCORE: -67.32
+MAX TEST SCORE:     -46.90
+Videos saved to: sac_test_videos/
+
+
+
+========================================
+SAC OFFICIAL TEST SCOREBOARD (normalized_sac.py)
+========================================
+Episode 1 | Score: 197.40
+Episode 2 | Score: 264.44
+Episode 3 | Score: 203.95
+Episode 4 | Score: 244.90
+Episode 5 | Score: 191.70
+==============================
+FINAL RESULTS
+==============================
+Average: 220.48
+Max:     264.44
+Videos:  sac_improved_videos/
