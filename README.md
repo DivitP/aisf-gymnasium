@@ -39,7 +39,10 @@ aisf-gymnasium/
 ├── models_and_stats/             # Saved models and training statistics│
 
 ```
+## Write Up
+Link: https://docs.google.com/document/d/1JI9Ye1AJBlLBe0nOMo7xtEMwxvq-Opsuc7mdksRVxgE/edit?usp=sharing
 
+## Breakdown
 Baseline Proximal Policy Optimization (PPO) and Initial Observations:
 - Code: ppo/BipedalWalkerPPO.py
 - Videos: logs/basic_PPO
